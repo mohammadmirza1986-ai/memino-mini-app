@@ -5,15 +5,34 @@ if (tg) {
   tg.expand();
 }
 
+// ===============================
+// اتصال به Supabase
+// ===============================
+
+const SUPABASE_URL = "https://jjxygfpbjeuaqdvvxvgo.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_0_AGOWqPWBQgDxoRhb5YhQ_YJzekJW2";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+// ===============================
 // اطلاعات کاربر تلگرام
+// ===============================
+
 const user = tg?.initDataUnsafe?.user;
 
-// اطلاعات ذخیره‌شده بازیکن
+// ===============================
+// اطلاعات بازیکن
+// ===============================
+
 let player = JSON.parse(
   localStorage.getItem("memino_player") || "null"
 );
 
-// ساخت حساب در اولین ورود
+// ساخت اطلاعات بازیکن در اولین ورود
 if (!player) {
   player = {
     telegramId: user?.id || null,
@@ -30,35 +49,38 @@ if (!player) {
   );
 }
 
-// نمایش نام
+// ===============================
+// نمایش اطلاعات بازیکن
+// ===============================
+
 const nameElement = document.getElementById("name");
 
 if (nameElement) {
   nameElement.textContent = player.name;
 }
 
-// نمایش سطح
 const levelElement = document.getElementById("level");
 
 if (levelElement) {
   levelElement.textContent = player.level;
 }
 
-// نمایش خنده
 const laughElement = document.getElementById("laugh");
 
 if (laughElement) {
   laughElement.textContent = player.laugh;
 }
 
-// نمایش جم
 const gemsElement = document.getElementById("gems");
 
 if (gemsElement) {
   gemsElement.textContent = player.gems;
 }
 
+// ===============================
 // دکمه بازی
+// ===============================
+
 const playButton = document.getElementById("play");
 
 if (playButton) {
@@ -69,11 +91,14 @@ if (playButton) {
   };
 }
 
+// ===============================
 // تنظیمات
+// ===============================
+
 const settingsButton = document.getElementById("settings");
 
 if (settingsButton) {
   settingsButton.onclick = () => {
     alert("تنظیمات میمینو به‌زودی فعال می‌شود.");
   };
-    }
+}
