@@ -11,7 +11,8 @@ if (tg) {
 
 const SUPABASE_URL = "https://jjxygfpbjeuaqdvvxvgo.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_0_AGOWqPWBQgDxoRhb5YhQ_YJzekJW2";
+const SUPABASE_KEY =
+  "sb_publishable_0_AGOWqPWBQgDxoRhb5YhQ_YJzekJW2";
 
 const supabase = window.supabase.createClient(
   SUPABASE_URL,
@@ -25,6 +26,49 @@ const supabase = window.supabase.createClient(
 const user = tg?.initDataUnsafe?.user;
 
 // ===============================
+// احراز هویت Telegram
+// ===============================
+
+async function authenticateTelegram() {
+  if (!tg?.initData) {
+    console.log("Telegram initData پیدا نشد.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/functions/v1/swift-action`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY
+        },
+
+        body: JSON.stringify({
+          initData: tg.initData
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.error("Telegram authentication failed:", result);
+      return;
+    }
+
+    console.log("Telegram authentication successful:", result);
+
+  } catch (error) {
+    console.error("Connection error:", error);
+  }
+}
+
+authenticateTelegram();
+
+// ===============================
 // اطلاعات بازیکن
 // ===============================
 
@@ -32,7 +76,7 @@ let player = JSON.parse(
   localStorage.getItem("memino_player") || "null"
 );
 
-// ساخت اطلاعات بازیکن در اولین ورود
+// ساخت بازیکن در اولین ورود
 if (!player) {
   player = {
     telegramId: user?.id || null,
@@ -40,7 +84,7 @@ if (!player) {
     name: user?.first_name || "مالی",
     level: 1,
     laugh: 500,
-    gems: 250
+    gems: 251
   };
 
   localStorage.setItem(
