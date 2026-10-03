@@ -147,3 +147,4 @@ if (settingsButton) {
   };
 }
 authenticateTelegram();
+alert("Memino app.js loaded");
