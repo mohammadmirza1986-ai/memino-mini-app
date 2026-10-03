@@ -146,3 +146,4 @@ if (settingsButton) {
     alert("تنظیمات میمینو به‌زودی فعال می‌شود.");
   };
 }
+authenticateTelegram();
